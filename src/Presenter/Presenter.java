@@ -16,6 +16,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class Presenter implements ActionListener, MouseListener, PresenterImp {
     private MainFrame mainFrame;
@@ -52,23 +54,38 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
                 break;
             case ADD_SERVICE_WATER:
                 String idSelectNodeUser = mainFrame.getIdSelectNodeUser();
-                mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_WATER,"Service Water","0"));
+                userNetwork.writeUTF("ADD_SERVICE_WATER");
+                userNetwork.writeInt(Integer.parseInt(idSelectNodeUser));
                 break;
             case ADD_SERVICE_ELECTRICITY:
                 idSelectNodeUser = mainFrame.getIdSelectNodeUser();
-                mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_ELECTRICITY,"Service Electricity","0"));
+                userNetwork.writeUTF("ADD_SERVICE_ELECTRICITY");
+                userNetwork.writeInt(Integer.parseInt(idSelectNodeUser));
+
                 break;
             case ADD_SERVICE_GAS:
                 idSelectNodeUser = mainFrame.getIdSelectNodeUser();
-                mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_GAS,"Service Gas","0"));
+                userNetwork.writeUTF("ADD_SERVICE_GAS");
+                userNetwork.writeInt(Integer.parseInt(idSelectNodeUser));
                 break;
             case ADD_SERVICE_INTERNET:
                 idSelectNodeUser = mainFrame.getIdSelectNodeUser();
-                mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_INTERNET,"Service Internet","0"));
+                userNetwork.writeUTF("ADD_SERVICE_INTERNET");
+                userNetwork.writeInt(Integer.parseInt(idSelectNodeUser));
                 break;
-
-
-
+            case ADD_BILL:
+                mainFrame.showDialogBill(true);
+                break;
+            case ADD_BILL_DIALOG:
+                mainFrame.showDialogBill(false);
+                LocalDate dateBill = mainFrame.getDateDialog();
+                Double valueBill = mainFrame.getValueBill();
+                idSelectNodeUser = mainFrame.getIdSelectNodeUser();
+                mainFrame.clearFieldsBill();
+                userNetwork.writeUTF("ADD_NEW_BILL");
+                String convertAux = dateBill.toString() + "#" + valueBill + "#" + idSelectNodeUser;
+                userNetwork.writeUTF(convertAux);
+                break;
         }
     }
 
@@ -76,7 +93,13 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON3) {
             PropertiesPanel panel = (PropertiesPanel) e.getComponent().getParent();
-            panel.showDeletePopMenu(e.getComponent(),e.getX(),e.getY());
+            String selectTypeNode = panel.getSelectTypeNode();
+            if (selectTypeNode.equals(TypeFiles.APARTMENT.getType()) || selectTypeNode.equals(TypeFiles.HOUSE.getType())) {
+                panel.showMenuOptionProperty(e.getComponent(), e.getX(), e.getY());
+            } else if (!selectTypeNode.equals(TypeFiles.HORIZONTAL_PROPERTY_USER.getType())) {
+                panel.showReceipt(e.getComponent(), e.getX(), e.getY());
+            }
+
         }
     }
 
@@ -115,5 +138,31 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
     @Override
     public void loadDataUser(Node root) {
         mainFrame.loadDataUser(root);
+    }
+
+    @Override
+    public void addNewWaterService(int waterServiceID) {
+        mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_WATER, "Service Water", String.valueOf(waterServiceID)));
+
+    }
+
+    @Override
+    public void addNewElectricityService(int electricityServiceID) {
+        mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_ELECTRICITY, "Service Electricity", String.valueOf(electricityServiceID)));
+    }
+
+    @Override
+    public void addNewGasService(int gasServiceID) {
+        mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_GAS, "Service Gas", String.valueOf(gasServiceID)));
+    }
+
+    @Override
+    public void addNewInternetService(int internetServiceID) {
+        mainFrame.addElementToNode(new NodeTree(TypeFiles.SERVICE_INTERNET, "Service Internet", String.valueOf(internetServiceID)));
+    }
+
+    @Override
+    public void addNewBillService(int idBillService) {
+        mainFrame.addElementToNode(new NodeTree(TypeFiles.BILL_SERVICE, "Factura", String.valueOf(idBillService)));
     }
 }

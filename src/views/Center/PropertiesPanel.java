@@ -20,11 +20,13 @@ public class PropertiesPanel extends JPanel {
     private DefaultTreeModel model;
     private DefaultMutableTreeNode nodeRoot;
     private JTree tree;
-    JPopupMenu popOptionProperty;
+    private final JPopupMenu popOptionProperty;
+    private JPopupMenu popAddReceipt;
     private JButton add;
 
     public PropertiesPanel(MouseListener mouseListener, ActionListener actionListener) {
         popOptionProperty = new JPopupMenu();
+        popAddReceipt = new JPopupMenu();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
@@ -48,6 +50,8 @@ public class PropertiesPanel extends JPanel {
         serviceMenu.add(new MenuItemModel("Internet",actionListener, Events.ADD_SERVICE_INTERNET.name()));
 
         popOptionProperty.add(serviceMenu);
+
+        popAddReceipt.add(new MenuItemModel("Agregar Factura",actionListener,Events.ADD_BILL.name()));
 //        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name());
 //        menu.add(new MenuItemModel("Edificio", actionListener, Events.ADD_BUILDING.name()));
 //        menu.add(new MenuItemModel("Casa", actionListener, Events.ADD_HOUSE.name()));
@@ -124,8 +128,12 @@ public class PropertiesPanel extends JPanel {
         }
     }
 
-    public void showDeletePopMenu(Component component, int x, int y) {
+    public void showMenuOptionProperty(Component component, int x, int y) {
         popOptionProperty.show(component, x, y);
+    }
+
+    public void showReceipt(Component component, int x, int y) {
+        popAddReceipt.show(component, x, y);
     }
 
     public void addElementToRoot(NodeTree node) {

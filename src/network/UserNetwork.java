@@ -87,7 +87,21 @@ public class UserNetwork {
                 boolean isExistUser = inputChanel.readBoolean();
                 presenterImp.showAlertUser(isExistUser);
                 startToReadFile();
-
+                break;
+            case "ADD_SERVICE_WATER":
+                presenterImp.addNewWaterService(inputChanel.readInt());
+                break;
+            case "ADD_SERVICE_ELECTRICITY":
+                presenterImp.addNewElectricityService(inputChanel.readInt());
+                break;
+            case "ADD_SERVICE_GAS":
+                presenterImp.addNewGasService(inputChanel.readInt());
+                break;
+            case "ADD_SERVICE_INTERNET":
+                presenterImp.addNewInternetService(inputChanel.readInt());
+                break;
+            case "ADD_NEW_BILL":
+                presenterImp.addNewBillService(inputChanel.readInt());
                 break;
 
         }

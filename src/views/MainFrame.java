@@ -1,12 +1,15 @@
 package views;
 
 import org.w3c.dom.Node;
+import views.DialogAddBill.DialogAddBill;
 import views.login.DialogLogin;
 import views.modelsTree.NodeTree;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 public class MainFrame extends JFrame {
@@ -16,6 +19,7 @@ public class MainFrame extends JFrame {
 
     private MainPanel mainPanel;
     private DialogLogin dialogLogin;
+    private DialogAddBill dialogAddBill;
 
     public MainFrame(ActionListener actionListener, MouseListener mouseListener) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -27,10 +31,15 @@ public class MainFrame extends JFrame {
         add(mainPanel);
 
         dialogLogin = new DialogLogin(actionListener);
+        dialogAddBill = new DialogAddBill(actionListener);
     }
 
     public void showLogin(boolean option) {
         dialogLogin.add(option);
+    }
+
+    public void showDialogBill(boolean option) {
+        dialogAddBill.showDialog(option);
     }
 
     public String getEmailUser() {
@@ -51,5 +60,17 @@ public class MainFrame extends JFrame {
 
     public void addElementToNode(NodeTree node) {
         mainPanel.addElementToNode(node);
+    }
+
+    public LocalDate getDateDialog() {
+        return dialogAddBill.getDate();
+    }
+
+    public Double getValueBill() {
+        return dialogAddBill.getValueBill();
+    }
+
+    public void clearFieldsBill() {
+        dialogAddBill.clearFields();
     }
 }
