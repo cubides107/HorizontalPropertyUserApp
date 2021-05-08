@@ -4,9 +4,9 @@ import org.w3c.dom.Node;
 
 public interface PresenterImp {
 
-    void showAlertUser(boolean option);
+    void showAlertUser(boolean option,String nameUser);
 
-    void loadDataUser(Node root);
+    void loadDataUser();
     void addNewWaterService(int waterServiceID);
     void addNewElectricityService(int electricityServiceID);
     void addNewGasService(int gasServiceID);

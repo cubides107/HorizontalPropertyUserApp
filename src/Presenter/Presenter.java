@@ -1,5 +1,6 @@
 package Presenter;
 
+import models.WrapperUser;
 import network.PresenterImp;
 import network.UserNetwork;
 import org.w3c.dom.Document;
@@ -22,6 +23,7 @@ import java.util.Date;
 public class Presenter implements ActionListener, MouseListener, PresenterImp {
     private MainFrame mainFrame;
     private UserNetwork userNetwork;
+    private WrapperUser wrapperUser;
 
     public Presenter() {
         try {
@@ -42,13 +44,14 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
                 userNetwork.writeUTF(emailUser);
                 break;
             case REGISTER:
-
                 break;
             case EXIT:
                 mainFrame.showLogin(false);
                 break;
             case PROPERTIES:
-                Document document = Persistence.convertXMLFileToXMLDocument("Test.xml");
+                userNetwork.writeUTF("REFRESH_PROPERTIES_USER");
+                userNetwork.writeUTF(wrapperUser.getNameUser());
+                Document document = Persistence.convertXMLFileToXMLDocument("data/PropertiesUser.xml");
                 Node root = document.getDocumentElement();
                 mainFrame.loadDataUser(root);
                 break;
@@ -124,11 +127,12 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
     }
 
     @Override
-    public void showAlertUser(boolean option) {
+    public void showAlertUser(boolean option,String name) {
         if (!option) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado");
             mainFrame.clearFieldsLogin();
         } else {
+            wrapperUser = new WrapperUser(name);
             mainFrame.showLogin(false);
             mainFrame.setVisible(true);
             mainFrame.clearFieldsLogin();
@@ -136,7 +140,9 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
     }
 
     @Override
-    public void loadDataUser(Node root) {
+    public void loadDataUser() {
+        Document document = Persistence.convertXMLFileToXMLDocument("data/PropertiesUser.xml");
+        Node root = document.getDocumentElement();
         mainFrame.loadDataUser(root);
     }
 

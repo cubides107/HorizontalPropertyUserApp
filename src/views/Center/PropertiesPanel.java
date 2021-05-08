@@ -168,8 +168,11 @@ public class PropertiesPanel extends JPanel {
             // make sure it's element node.
             if (tempNode.getNodeType() == Node.ELEMENT_NODE) {
                 if (tempNode.hasChildNodes()) {
-                    String nodeValue = tempNode.getFirstChild().getNodeValue().trim();
-                    node.setID(nodeValue);
+                    if (tempNode.getNodeName().equals("ID")) {
+                        String nodeValue = tempNode.getTextContent();
+                        NodeTree userObject = (NodeTree) dmtNode.getUserObject();
+                        userObject.setID(nodeValue);
+                    }
                     if (!tempNode.getNodeName().equals("ID")) {
                         dmtNode.add(builtTreeNode(tempNode));
                     }
@@ -186,6 +189,21 @@ public class PropertiesPanel extends JPanel {
                 break;
             case "Apartment":
                 node = new NodeTree(TypeFiles.APARTMENT, root.getNodeName(), "0");
+                break;
+            case "ElectricityService":
+                node = new NodeTree(TypeFiles.SERVICE_ELECTRICITY, root.getNodeName(), "0");
+                break;
+            case "WrapperService":
+                node = new NodeTree(TypeFiles.BILL_SERVICE, root.getNodeName(), "0");
+                break;
+            case "GasService":
+                node = new NodeTree(TypeFiles.SERVICE_GAS, root.getNodeName(), "0");
+                break;
+            case "WaterService":
+                node = new NodeTree(TypeFiles.SERVICE_WATER, root.getNodeName(), "0");
+                break;
+            case "InternetService":
+                node = new NodeTree(TypeFiles.SERVICE_INTERNET, root.getNodeName(), "0");
                 break;
                 default:
                 node = new NodeTree(TypeFiles.HORIZONTAL_PROPERTY_USER, root.getNodeName(), "0");

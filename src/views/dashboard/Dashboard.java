@@ -10,19 +10,14 @@ import java.awt.event.ActionListener;
 
 public class Dashboard extends JPanel {
 
-
-
     public Dashboard(ActionListener actionListener) {
-
         setBackground(Color.decode("#212F73"));
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(20,15,10,15));
         initComponents(actionListener);
-
     }
 
     private void initComponents(ActionListener actionListener) {
-
 
         JLabel title = new JLabel();
         title.setAlignmentX(CENTER_ALIGNMENT);

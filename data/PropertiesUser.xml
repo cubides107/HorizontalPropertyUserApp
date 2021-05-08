@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Julian>
+    <House>
+        <ID>10</ID>
+        <ElectricityService>
+            <ID>11</ID>
+        </ElectricityService>
+        <WaterService>
+            <ID>12</ID>
+        </WaterService>
+        <GasService>
+            <ID>13</ID>
+        </GasService>
+        <InternetService>
+            <ID>14</ID>
+            <WrapperService>
+                <ID>0</ID>
+            </WrapperService>
+        </InternetService>
+    </House>
+</Julian>

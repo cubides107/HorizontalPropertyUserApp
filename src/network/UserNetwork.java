@@ -1,10 +1,5 @@
 package network;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import persistence.Persistence;
-
 import java.io.*;
 import java.net.Socket;
 
@@ -57,7 +52,7 @@ public class UserNetwork {
 //            System.out.println("Tamaño:" + sizeFile + " Nombre: " + nameFile + "/n"
 //                    + "Recibiendo Archivo....");
 
-        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("Test.xml"));
+        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("data/PropertiesUser.xml"));
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputChanel);
 
         byte[] buffer = new byte[sizeFile];
@@ -85,8 +80,10 @@ public class UserNetwork {
         switch (message) {
             case "NEW_CLIENT":
                 boolean isExistUser = inputChanel.readBoolean();
-                presenterImp.showAlertUser(isExistUser);
-                startToReadFile();
+                presenterImp.showAlertUser(isExistUser,inputChanel.readUTF());
+                if (isExistUser) {
+                    startToReadFile();
+                }
                 break;
             case "ADD_SERVICE_WATER":
                 presenterImp.addNewWaterService(inputChanel.readInt());
@@ -102,6 +99,10 @@ public class UserNetwork {
                 break;
             case "ADD_NEW_BILL":
                 presenterImp.addNewBillService(inputChanel.readInt());
+                break;
+            case "REFRESH_PROPERTIES_USER":
+                startToReadFile();
+                presenterImp.loadDataUser();
                 break;
 
         }
