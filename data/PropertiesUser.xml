@@ -2,20 +2,12 @@
 <Julian>
     <House>
         <ID>10</ID>
-        <ElectricityService>
-            <ID>11</ID>
-        </ElectricityService>
         <WaterService>
-            <ID>12</ID>
-        </WaterService>
-        <GasService>
-            <ID>13</ID>
-        </GasService>
-        <InternetService>
-            <ID>14</ID>
+            <ID>11</ID>
             <WrapperService>
-                <ID>0</ID>
+                <Date>2021-05-19</Date>
+                <Value>9000.0</Value>
             </WrapperService>
-        </InternetService>
+        </WaterService>
     </House>
 </Julian>
