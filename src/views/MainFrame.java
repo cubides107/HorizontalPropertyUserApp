@@ -2,6 +2,7 @@ package views;
 
 import org.w3c.dom.Node;
 import views.DialogAddBill.DialogAddBill;
+import views.DialogAddBill.DialogReport;
 import views.login.DialogLogin;
 import views.modelsTree.NodeTree;
 
@@ -9,7 +10,6 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.time.LocalDate;
-import java.util.Date;
 
 
 public class MainFrame extends JFrame {
@@ -20,6 +20,7 @@ public class MainFrame extends JFrame {
     private MainPanel mainPanel;
     private DialogLogin dialogLogin;
     private DialogAddBill dialogAddBill;
+    private DialogReport dialogReport;
 
     public MainFrame(ActionListener actionListener, MouseListener mouseListener) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -32,10 +33,19 @@ public class MainFrame extends JFrame {
 
         dialogLogin = new DialogLogin(actionListener);
         dialogAddBill = new DialogAddBill(actionListener);
+        dialogReport = new DialogReport(actionListener);
     }
 
     public void showLogin(boolean option) {
         dialogLogin.add(option);
+    }
+
+    public void showDialogReport(boolean option){
+        dialogReport.setVisible(option);
+    }
+
+    public LocalDate getDateDialogReport(){
+        return dialogReport.getDate();
     }
 
     public void showDialogBill(boolean option) {

@@ -89,6 +89,15 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
                 String convertAux = dateBill.toString() + "#" + valueBill + "#" + idSelectNodeUser;
                 userNetwork.writeUTF(convertAux);
                 break;
+            case REPORTS:
+                mainFrame.showDialogReport(true);
+                break;
+            case ACCEPT_REPORT:
+                mainFrame.showDialogReport(false);
+                userNetwork.writeUTF("REPORT1");
+                userNetwork.writeUTF(wrapperUser.getNameUser());
+                userNetwork.writeUTF(mainFrame.getDateDialogReport().toString());
+                break;
         }
     }
 
