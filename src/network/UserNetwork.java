@@ -45,14 +45,14 @@ public class UserNetwork {
         }
     }
 
-    private void startToReadFile() throws IOException {
+    private void startToReadFile(String path) throws IOException {
 //            String nameFile = inputChanel.readUTF();
         int sizeFile = inputChanel.readInt();
 
 //            System.out.println("Tamaño:" + sizeFile + " Nombre: " + nameFile + "/n"
 //                    + "Recibiendo Archivo....");
 
-        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream("data/PropertiesUser.xml"));
+        BufferedOutputStream outputChannelFiles = new BufferedOutputStream(new FileOutputStream(path));
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputChanel);
 
         byte[] buffer = new byte[sizeFile];
@@ -82,7 +82,7 @@ public class UserNetwork {
                 boolean isExistUser = inputChanel.readBoolean();
                 presenterImp.showAlertUser(isExistUser,inputChanel.readUTF());
                 if (isExistUser) {
-                    startToReadFile();
+                    startToReadFile("data/PropertiesUser.xml");
                 }
                 break;
             case "ADD_SERVICE_WATER":
@@ -101,9 +101,13 @@ public class UserNetwork {
                 presenterImp.addNewBillService(inputChanel.readInt());
                 break;
             case "REFRESH_PROPERTIES_USER":
-                startToReadFile();
+                startToReadFile("data/PropertiesUser.xml");
                 presenterImp.loadDataUser();
                 break;
+            case "REPORT1":
+                startToReadFile("data/Report.pdf");
+                break;
+
 
         }
     }

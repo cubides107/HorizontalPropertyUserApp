@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Julian>
     <House>
-        <ID>10</ID>
+        <ID>11</ID>
+        <InternetService>
+            <ID>12</ID>
+            <WrapperService>
+                <Date>2020-05-20</Date>
+                <Value>6789.0</Value>
+            </WrapperService>
+            <WrapperService>
+                <Date>2020-05-19</Date>
+                <Value>5656.0</Value>
+            </WrapperService>
+        </InternetService>
     </House>
 </Julian>
