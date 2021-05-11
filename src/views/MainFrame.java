@@ -83,4 +83,8 @@ public class MainFrame extends JFrame {
     public void clearFieldsBill() {
         dialogAddBill.clearFields();
     }
+
+    public void showPropertiesPanel() {
+        mainPanel.showPropertiesPanel();
+    }
 }

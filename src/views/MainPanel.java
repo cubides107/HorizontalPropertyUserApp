@@ -39,4 +39,8 @@ public class MainPanel extends JPanel {
     public void addElementToNode(NodeTree node) {
         mainCenterPanel.addElementToNode(node);
     }
+
+    public void showPropertiesPanel() {
+        mainCenterPanel.showPropertiesPanel();
+    }
 }

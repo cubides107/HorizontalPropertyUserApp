@@ -8,6 +8,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 public class CenterPanel extends JPanel {
 
@@ -16,6 +17,7 @@ public class CenterPanel extends JPanel {
     private CardLayout cardLayout;
 
     private PropertiesPanel propertiesPanel;
+    private PdfPanel pdfpanel;
 
     public CenterPanel(MouseListener mouseListener, ActionListener actionListener) {
         cardLayout = new CardLayout();
@@ -27,6 +29,13 @@ public class CenterPanel extends JPanel {
     private void initComponents(MouseListener mouseListener, ActionListener actionListener) {
         propertiesPanel = new PropertiesPanel(mouseListener, actionListener);
         add(propertiesPanel, PROPERTIES_PANEL);
+
+//        try {
+//            pdfpanel = new PdfPanel();
+//            add(pdfpanel,"PDF");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -62,5 +71,9 @@ public class CenterPanel extends JPanel {
 
     public void loadDataUser(Node root) {
         propertiesPanel.loadData(root);
+    }
+
+    public void showProperties() {
+        
     }
 }

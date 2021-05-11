@@ -14,6 +14,11 @@ import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
 
 public class PropertiesPanel extends JPanel {
 
@@ -22,11 +27,13 @@ public class PropertiesPanel extends JPanel {
     private JTree tree;
     private final JPopupMenu popOptionProperty;
     private JPopupMenu popAddReceipt;
+    private JPopupMenu deleteBill;
     private JButton add;
 
     public PropertiesPanel(MouseListener mouseListener, ActionListener actionListener) {
         popOptionProperty = new JPopupMenu();
         popAddReceipt = new JPopupMenu();
+        deleteBill = new JPopupMenu();
         setLayout(new BorderLayout());
         setBackground(Color.decode("#1C2868"));
         nodeRoot = new DefaultMutableTreeNode();
@@ -44,14 +51,15 @@ public class PropertiesPanel extends JPanel {
 
         JMenu serviceMenu = new JMenu("Agregar Servicio");
 
-        serviceMenu.add(new MenuItemModel("Luz",actionListener, Events.ADD_SERVICE_ELECTRICITY.name()));
-        serviceMenu.add(new MenuItemModel("Agua",actionListener, Events.ADD_SERVICE_WATER.name()));
-        serviceMenu.add(new MenuItemModel("Gas",actionListener, Events.ADD_SERVICE_GAS.name()));
-        serviceMenu.add(new MenuItemModel("Internet",actionListener, Events.ADD_SERVICE_INTERNET.name()));
+        serviceMenu.add(new MenuItemModel("Luz", actionListener, Events.ADD_SERVICE_ELECTRICITY.name()));
+        serviceMenu.add(new MenuItemModel("Agua", actionListener, Events.ADD_SERVICE_WATER.name()));
+        serviceMenu.add(new MenuItemModel("Gas", actionListener, Events.ADD_SERVICE_GAS.name()));
+        serviceMenu.add(new MenuItemModel("Internet", actionListener, Events.ADD_SERVICE_INTERNET.name()));
 
         popOptionProperty.add(serviceMenu);
 
-        popAddReceipt.add(new MenuItemModel("Agregar Factura",actionListener,Events.ADD_BILL.name()));
+        popAddReceipt.add(new MenuItemModel("Agregar Factura", actionListener, Events.ADD_BILL.name()));
+        popAddReceipt.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE.name()));
 //        MenuItemModel removeElement = new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name());
 //        menu.add(new MenuItemModel("Edificio", actionListener, Events.ADD_BUILDING.name()));
 //        menu.add(new MenuItemModel("Casa", actionListener, Events.ADD_HOUSE.name()));
@@ -65,7 +73,7 @@ public class PropertiesPanel extends JPanel {
 //        menuBuilding.add(new MenuItemModel("Apartamento", actionListener, Events.ADD_APARTMENT.name()));
 //        popMenuBuilding.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE_PROPERTY.name()));
 
-
+        deleteBill.add(new MenuItemModel("Eliminar", actionListener, Events.DELETE.name()));
 //        deletePropertyOnly.add(removeElement);
 
         tree = new JTree(model);
@@ -136,6 +144,12 @@ public class PropertiesPanel extends JPanel {
         popAddReceipt.show(component, x, y);
     }
 
+    public void showDeleteBill(Component component, int x, int y) {
+        deleteBill.show(component, x, y);
+
+    }
+
+
     public void addElementToRoot(NodeTree node) {
         this.nodeRoot.add(new DefaultMutableTreeNode(node));
         try {
@@ -173,15 +187,16 @@ public class PropertiesPanel extends JPanel {
                         NodeTree userObject = (NodeTree) dmtNode.getUserObject();
                         userObject.setID(nodeValue);
                     }
-                    if(tempNode.getNodeName().equals("Date")){
-                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: "  + tempNode.getTextContent());
+                    if (tempNode.getNodeName().equals("Date")) {
+                        LocalDate dateParse = LocalDate.parse(tempNode.getTextContent());
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("Fecha: " + dateParse.getMonth() + "-" + dateParse.getYear());
                         dmtNode.add(date);
                     }
-                    if(tempNode.getNodeName().equals("Value")){
-                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: "  + tempNode.getTextContent());
+                    if (tempNode.getNodeName().equals("Value")) {
+                        DefaultMutableTreeNode date = new DefaultMutableTreeNode("valor: " + tempNode.getTextContent());
                         dmtNode.add(date);
                     }
-                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value") )) {
+                    if (!(tempNode.getNodeName().equals("ID") || tempNode.getNodeName().equals("Date") || tempNode.getNodeName().equals("Value"))) {
                         dmtNode.add(builtTreeNode(tempNode));
                     }
                 }
@@ -213,9 +228,9 @@ public class PropertiesPanel extends JPanel {
             case "InternetService":
                 node = new NodeTree(TypeFiles.SERVICE_INTERNET, root.getNodeName(), "0");
                 break;
-                default:
+            default:
                 node = new NodeTree(TypeFiles.HORIZONTAL_PROPERTY_USER, root.getNodeName(), "0");
-                    break;
+                break;
         }
         return node;
     }

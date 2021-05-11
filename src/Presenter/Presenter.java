@@ -30,9 +30,18 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
             mainFrame = new MainFrame(this, this);
             userNetwork = new UserNetwork(this);
             mainFrame.showLogin(true);
+            repaint();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void repaint() {
+        Timer timer = new Timer(10, e -> {
+            mainFrame.repaint();
+        });
+        timer.start();
     }
 
     @Override
@@ -49,6 +58,7 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
                 mainFrame.showLogin(false);
                 break;
             case PROPERTIES:
+                mainFrame.showPropertiesPanel();
                 userNetwork.writeUTF("REFRESH_PROPERTIES_USER");
                 userNetwork.writeUTF(wrapperUser.getNameUser());
                 Document document = Persistence.convertXMLFileToXMLDocument("data/PropertiesUser.xml");
@@ -98,6 +108,11 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
                 userNetwork.writeUTF(wrapperUser.getNameUser());
                 userNetwork.writeUTF(mainFrame.getDateDialogReport().toString());
                 break;
+            case DELETE:
+                idSelectNodeUser = mainFrame.getIdSelectNodeUser();
+                userNetwork.writeUTF("DELETE");
+                userNetwork.writeInt(Integer.parseInt(idSelectNodeUser));
+                break;
         }
     }
 
@@ -108,7 +123,9 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
             String selectTypeNode = panel.getSelectTypeNode();
             if (selectTypeNode.equals(TypeFiles.APARTMENT.getType()) || selectTypeNode.equals(TypeFiles.HOUSE.getType())) {
                 panel.showMenuOptionProperty(e.getComponent(), e.getX(), e.getY());
-            } else if (!selectTypeNode.equals(TypeFiles.HORIZONTAL_PROPERTY_USER.getType())) {
+            } else if (selectTypeNode.equals(TypeFiles.BILL_SERVICE.getType())) {
+               panel.showDeleteBill(e.getComponent(), e.getX(), e.getY());
+            }else if(!selectTypeNode.equals(TypeFiles.HORIZONTAL_PROPERTY_USER.getType())){
                 panel.showReceipt(e.getComponent(), e.getX(), e.getY());
             }
 
@@ -136,7 +153,7 @@ public class Presenter implements ActionListener, MouseListener, PresenterImp {
     }
 
     @Override
-    public void showAlertUser(boolean option,String name) {
+    public void showAlertUser(boolean option, String name) {
         if (!option) {
             JOptionPane.showMessageDialog(null, "Usuario no encontrado");
             mainFrame.clearFieldsLogin();

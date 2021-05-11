@@ -31,8 +31,8 @@ public class MainHeader extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g.setColor(Color.WHITE);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.drawImage(new ImageIcon(getClass().getResource("/super_user.png")).getImage(),830,10,32,32,this);
-        g2.drawString("Admin",780,30);
+        g2.drawImage(new ImageIcon(getClass().getResource("/profile.png")).getImage(),830,10,32,32,this);
+        g2.drawString("User",780,30);
     }
 
 }

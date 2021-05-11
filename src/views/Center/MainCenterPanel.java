@@ -61,4 +61,8 @@ public class MainCenterPanel extends JPanel {
     public void loadDataUser(Node root) {
         centerPanel.loadDataUser(root);
     }
+
+    public void showPropertiesPanel() {
+        centerPanel.showPropertiesPanel();
+    }
 }
